@@ -21,6 +21,7 @@ import { useCart } from '../../hooks/cart';
 
 const FloatingCart: React.FC = () => {
   const { products } = useCart();
+  // const [products, setProducts] = useState([]);
 
   const navigation = useNavigation();
 
