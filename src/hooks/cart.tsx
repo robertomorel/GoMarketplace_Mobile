@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 
 import AsyncStorage from '@react-native-community/async-storage';
+import { ProductImage } from 'src/pages/Cart/styles';
 
 export interface Product {
   id: string;
@@ -35,7 +36,8 @@ const CartProvider: React.FC = ({ children }) => {
       const foundProducts = await AsyncStorage.getItem(KEY_PRODUCTS);
 
       if (foundProducts) {
-        setProducts(JSON.parse(foundProducts));
+        // setProducts(JSON.parse(foundProducts));
+        setProducts([...JSON.parse(foundProducts)]);
       }
     }
 
@@ -48,6 +50,28 @@ const CartProvider: React.FC = ({ children }) => {
     }
     updateStoredProducts();
   }, [products]);
+
+  /*
+  // -- Solução do professor
+  const addToCart = useCallback(
+    async product => {
+      const productExsits = products.find(p => p.id === ProductImage.id);
+
+      if (productExsits) {
+        setProducts(
+          products.map(p =>
+            p.id === product.id ? { ...product, quantity: p.quantity + 1 } : p,
+          ),
+        );
+      } else {
+        setProducts([...products, { ...product, quantity: 1 }]);
+      }
+
+      await AsyncStorage.setItem(KEY_PRODUCTS, JSON.stringify(products));
+    },
+    [products],
+  );
+  */
 
   const addToCart = useCallback(
     async product => {
@@ -70,6 +94,7 @@ const CartProvider: React.FC = ({ children }) => {
 
   const increment = useCallback(
     async id => {
+      // -- Pode ser usado tb o map, como no exemplo comentado do useCallback()
       const newProducts = [...products];
       const index = newProducts.findIndex(item => item.id === id);
 
@@ -85,6 +110,7 @@ const CartProvider: React.FC = ({ children }) => {
 
   const decrement = useCallback(
     async id => {
+      // -- Pode ser usado tb o map, como no exemplo comentado do useCallback()
       const newProducts = [...products];
       const index = newProducts.findIndex(item => item.id === id);
 

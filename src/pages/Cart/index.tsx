@@ -49,6 +49,7 @@ const Cart: React.FC = () => {
   const cartTotal = useMemo(() => {
     // -- RETURN THE SUM OF THE PRICE FROM ALL ITEMS IN THE CART
     let count = 0;
+    // -- Também podia ser utilizado o reduce
     products.forEach(product => {
       count += product.quantity * product.price;
     });
